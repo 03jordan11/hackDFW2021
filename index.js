@@ -92,5 +92,18 @@ function loop() {
 }
 
 init();
-genkijira.image.onload = _ => loop();
+
+Promise.all(entities.map(entity => {
+  return new Promise(resolve => {
+    entity.image.addEventListener('load', () => resolve(true));
+    entity.image.addEventListener('error', () => resolve(false));
+  });
+})).then(results => {
+  if (results.every(res => res)) {
+    console.log('All images loaded successfully');
+    loop();
+  }
+  else
+    console.log('Some images failed to load');
+});
 
