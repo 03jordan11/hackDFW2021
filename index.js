@@ -3,10 +3,6 @@ import { Entity } from './entity';
 const can = document.querySelector('#can');
 const ctx = can.getContext('2d');
 
-const gravity = 0.05;
-let gravitySpeed = 0;
-let jumping = false;
-
 const genkijira = new Entity(
   {
     x: 200,
@@ -36,23 +32,13 @@ function init() {
   can.height = window.innerHeight;
 }
 
-function loadImage() {
-}
-
-function draw() {
-  ctx.fillStyle = 'lightblue';
-  ctx.fillRect(0, 0, can.width, can.height);
-  ctx.drawImage(genkijira.image, genkijira.x, genkijira.y, 200, 300);
-}
-
-function jump() {
-  genkijira.speedY = -10;
-  jumping = true;
-}
-
 function clear() {
   ctx.fillStyle = 'lightblue';
   ctx.fillRect(0, 0, can.width, can.height);
+}
+
+function jump() {
+  console.log('unimplemented');
 }
 
 document.addEventListener('keydown', ev => {
@@ -74,7 +60,6 @@ document.addEventListener('keydown', ev => {
 });
 
 init();
-loadImage();
 genkijira.image.onload = () => {
   loop();
 };

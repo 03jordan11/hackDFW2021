@@ -152,9 +152,6 @@ var _entity = require("./entity");
 
 var can = document.querySelector('#can');
 var ctx = can.getContext('2d');
-var gravity = 0.05;
-var gravitySpeed = 0;
-var jumping = false;
 var genkijira = new _entity.Entity({
   x: 200,
   y: 200,
@@ -179,22 +176,13 @@ function init() {
   can.height = window.innerHeight;
 }
 
-function loadImage() {}
-
-function draw() {
-  ctx.fillStyle = 'lightblue';
-  ctx.fillRect(0, 0, can.width, can.height);
-  ctx.drawImage(genkijira.image, genkijira.x, genkijira.y, 200, 300);
-}
-
-function jump() {
-  genkijira.speedY = -10;
-  jumping = true;
-}
-
 function clear() {
   ctx.fillStyle = 'lightblue';
   ctx.fillRect(0, 0, can.width, can.height);
+}
+
+function jump() {
+  console.log('unimplemented');
 }
 
 document.addEventListener('keydown', function (ev) {
@@ -219,7 +207,6 @@ document.addEventListener('keydown', function (ev) {
   }
 });
 init();
-loadImage();
 
 genkijira.image.onload = function () {
   loop();
