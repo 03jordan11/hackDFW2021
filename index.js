@@ -21,9 +21,9 @@ const food = new Entity(
   {
     x: 600,
     y: 200,
-    width: 100,
+    width: 130,
     height: 200,
-    imagePath: './candy.png',
+    imagePath: './lollipop.png',
   }
 );
 
