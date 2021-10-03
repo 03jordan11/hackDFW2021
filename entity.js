@@ -1,5 +1,5 @@
 export class Entity {
-  constructor({x, y, width, height, imagePath}) {
+  constructor({x, y, width, height, imagePath, zIndex = 0}) {
     this.pos = {
       x,
       y,
@@ -12,6 +12,7 @@ export class Entity {
     this.height = height;
     this.image = new Image();
     this.image.src = imagePath;
+    this.zIndex = zIndex;
   }
 
   draw(ctx) {

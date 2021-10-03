@@ -7,7 +7,7 @@ const gravity = 0.2;
 let isJumping = false;
 const entities = [];
 
-function addEntity(entity) {
+function registerEntity(entity) {
   entities.push(entity);
 }
 
@@ -18,11 +18,12 @@ const genkijira = new Entity(
     width: 200,
     height: 300,
     imagePath: './gotchi.png',
+    zIndex: 99,
   }
 );
-addEntity(genkijira);
+registerEntity(genkijira);
 
-const food = new Entity(
+const lollipop = new Entity(
   {
     x: 600,
     y: 200,
@@ -31,9 +32,20 @@ const food = new Entity(
     imagePath: './lollipop.png',
   }
 );
-addEntity(food);
+registerEntity(lollipop);
 
-function init() {
+const brocolli = new Entity(
+  {
+    x: 900,
+    y: 300,
+    width: 130,
+    height: 200,
+    imagePath: './broccoli.png',
+  }
+);
+registerEntity(brocolli);
+
+function initCanvas() {
   can.width = window.innerWidth;
   can.height = window.innerHeight;
 }
@@ -91,7 +103,9 @@ function loop() {
   });
 }
 
-init();
+initCanvas();
+
+entities.sort((entity1, entity2) => entity1.zIndex > entity2.zIndex);
 
 Promise.all(entities.map(entity => {
   return new Promise(resolve => {
