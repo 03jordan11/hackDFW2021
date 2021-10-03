@@ -127,14 +127,21 @@ exports.Entity = void 0;
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
-var Entity = function Entity() {
+var Entity = function Entity(_ref) {
+  var x = _ref.x,
+      y = _ref.y,
+      width = _ref.width,
+      height = _ref.height,
+      imagePath = _ref.imagePath;
+
   _classCallCheck(this, Entity);
 
-  this.x = 0;
-  this.y = 0;
-  this.width = 100;
-  this.height = 100;
+  this.x = x;
+  this.y = y;
+  this.width = width;
+  this.height = height;
   this.image = new Image();
+  this.image.src = imagePath;
 };
 
 exports.Entity = Entity;
@@ -148,18 +155,20 @@ var ctx = can.getContext('2d');
 var gravity = 0.05;
 var gravitySpeed = 0;
 var jumping = false;
-var genkijira = new _entity.Entity();
-genkijira.x = 200;
-genkijira.y = 200;
-genkijira.width = 200;
-genkijira.height = 300;
-genkijira.image.src = './gotchi.png';
-var food = new _entity.Entity();
-food.x = 600;
-food.y = 200;
-food.width = 100;
-food.height = 200;
-food.image.src = './candy.png';
+var genkijira = new _entity.Entity({
+  x: 200,
+  y: 200,
+  width: 200,
+  height: 300,
+  imagePath: './gotchi.png'
+});
+var food = new _entity.Entity({
+  x: 600,
+  y: 200,
+  width: 100,
+  height: 200,
+  imagePath: './candy.png'
+});
 
 function drawEntity(entity) {
   ctx.drawImage(entity.image, entity.x, entity.y, entity.width, entity.height);

@@ -7,19 +7,25 @@ const gravity = 0.05;
 let gravitySpeed = 0;
 let jumping = false;
 
-const genkijira = new Entity();
-genkijira.x = 200;
-genkijira.y = 200;
-genkijira.width = 200;
-genkijira.height = 300;
-genkijira.image.src = './gotchi.png';
+const genkijira = new Entity(
+  {
+    x: 200,
+    y: 200,
+    width: 200,
+    height: 300,
+    imagePath: './gotchi.png',
+  }
+);
 
-const food = new Entity();
-food.x = 600;
-food.y = 200;
-food.width = 100;
-food.height = 200;
-food.image.src = './candy.png';
+const food = new Entity(
+  {
+    x: 600,
+    y: 200,
+    width: 100,
+    height: 200,
+    imagePath: './candy.png',
+  }
+);
 
 function drawEntity(entity) {
   ctx.drawImage(entity.image, entity.x, entity.y, entity.width, entity.height);
