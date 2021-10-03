@@ -3,7 +3,8 @@ import { Entity } from './entity';
 const can = document.querySelector('#can');
 const ctx = can.getContext('2d');
 
-const gravity = 0.1;
+const gravity = 0.2;
+let isJumping = false;
 
 const genkijira = new Entity(
   {
@@ -40,7 +41,8 @@ function clear() {
 }
 
 function jump() {
-  console.log('unimplemented');
+  isJumping = true;
+  genkijira.vel.y = -10;
 }
 
 function update() {
@@ -50,7 +52,8 @@ function update() {
   const g = can.height - genkijira.height;
   if (genkijira.pos.y >= g) {
     genkijira.pos.y = g - (genkijira.pos.y - g);
-    genkijira.vel.y = -Math.abs(genkijira.vel.y);
+    genkijira.vel.y = 0;
+    isJumping = false;
   }
 }
 
@@ -67,7 +70,8 @@ document.addEventListener('keydown', ev => {
     case 'ArrowDown':
       break;
     case ' ':
-      jump();
+      if (!isJumping)
+        jump();
       break;
   }
 });

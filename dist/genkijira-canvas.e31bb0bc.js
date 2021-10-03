@@ -158,7 +158,8 @@ var _entity = require("./entity");
 
 var can = document.querySelector('#can');
 var ctx = can.getContext('2d');
-var gravity = 0.1;
+var gravity = 0.2;
+var isJumping = false;
 var genkijira = new _entity.Entity({
   x: 200,
   y: 200,
@@ -189,7 +190,8 @@ function clear() {
 }
 
 function jump() {
-  console.log('unimplemented');
+  isJumping = true;
+  genkijira.vel.y = -10;
 }
 
 function update() {
@@ -199,7 +201,8 @@ function update() {
 
   if (genkijira.pos.y >= g) {
     genkijira.pos.y = g - (genkijira.pos.y - g);
-    genkijira.vel.y = -Math.abs(genkijira.vel.y);
+    genkijira.vel.y = 0;
+    isJumping = false;
   }
 }
 
@@ -220,7 +223,7 @@ document.addEventListener('keydown', function (ev) {
       break;
 
     case ' ':
-      jump();
+      if (!isJumping) jump();
       break;
   }
 });
