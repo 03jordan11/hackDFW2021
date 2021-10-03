@@ -1,3 +1,5 @@
+import { Entity } from './entity';
+
 const can = document.querySelector('#can');
 const ctx = can.getContext('2d');
 
@@ -5,23 +7,22 @@ const gravity = 0.05;
 let gravitySpeed = 0;
 let jumping = false;
 
-const genkijira = {
-  x: 200,
-  y: 200,
-  width: 200,
-  height: 300,
-  img: new Image(),
-  speedY: 0,
-};
+const genkijira = new Entity();
+genkijira.x = 200;
+genkijira.y = 200;
+genkijira.width = 200;
+genkijira.height = 300;
+genkijira.image.src = './gotchi.png';
 
-const food = {
-  x: 100,
-  y: 100,
-  img: new Image(),
-};
+const food = new Entity();
+food.x = 600;
+food.y = 200;
+food.width = 100;
+food.height = 200;
+food.image.src = './candy.png';
 
 function drawEntity(entity) {
-  ctx.drawImage(entity.img, entity.x, entity.y, entity.width, entity.height);
+  ctx.drawImage(entity.image, entity.x, entity.y, entity.width, entity.height);
 }
 
 function init() {
@@ -30,16 +31,12 @@ function init() {
 }
 
 function loadImage() {
-  genkijira.img.onload = () => {
-    ctx.drawImage(genkijira.img, genkijira.x, genkijira.y, 200, 300);
-  };
-  genkijira.img.src = './gotchi.png';
 }
 
 function draw() {
   ctx.fillStyle = 'lightblue';
   ctx.fillRect(0, 0, can.width, can.height);
-  ctx.drawImage(genkijira.img, genkijira.x, genkijira.y, 200, 300);
+  ctx.drawImage(genkijira.image, genkijira.x, genkijira.y, 200, 300);
 }
 
 function jump() {
@@ -72,13 +69,15 @@ document.addEventListener('keydown', ev => {
 
 init();
 loadImage();
+genkijira.image.onload = () => {
+  loop();
+};
 
-(function loop() {
+function loop() {
   window.requestAnimationFrame(loop);
 
   clear();
 
+  drawEntity(food);
   drawEntity(genkijira);
-
-  //draw();
-})();
+}

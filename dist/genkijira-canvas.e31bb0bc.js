@@ -117,28 +117,52 @@ parcelRequire = (function (modules, cache, entry, globalName) {
   }
 
   return newRequire;
-})({"index.js":[function(require,module,exports) {
+})({"entity.js":[function(require,module,exports) {
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.Entity = void 0;
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+var Entity = function Entity() {
+  _classCallCheck(this, Entity);
+
+  this.x = 0;
+  this.y = 0;
+  this.width = 100;
+  this.height = 100;
+  this.image = new Image();
+};
+
+exports.Entity = Entity;
+},{}],"index.js":[function(require,module,exports) {
+"use strict";
+
+var _entity = require("./entity");
+
 var can = document.querySelector('#can');
 var ctx = can.getContext('2d');
 var gravity = 0.05;
 var gravitySpeed = 0;
 var jumping = false;
-var genkijira = {
-  x: 200,
-  y: 200,
-  width: 200,
-  height: 300,
-  img: new Image(),
-  speedY: 0
-};
-var food = {
-  x: 100,
-  y: 100,
-  img: new Image()
-};
+var genkijira = new _entity.Entity();
+genkijira.x = 200;
+genkijira.y = 200;
+genkijira.width = 200;
+genkijira.height = 300;
+genkijira.image.src = './gotchi.png';
+var food = new _entity.Entity();
+food.x = 600;
+food.y = 200;
+food.width = 100;
+food.height = 200;
+food.image.src = './candy.png';
 
 function drawEntity(entity) {
-  ctx.drawImage(entity.img, entity.x, entity.y, entity.width, entity.height);
+  ctx.drawImage(entity.image, entity.x, entity.y, entity.width, entity.height);
 }
 
 function init() {
@@ -146,18 +170,12 @@ function init() {
   can.height = window.innerHeight;
 }
 
-function loadImage() {
-  genkijira.img.onload = function () {
-    ctx.drawImage(genkijira.img, genkijira.x, genkijira.y, 200, 300);
-  };
-
-  genkijira.img.src = './gotchi.png';
-}
+function loadImage() {}
 
 function draw() {
   ctx.fillStyle = 'lightblue';
   ctx.fillRect(0, 0, can.width, can.height);
-  ctx.drawImage(genkijira.img, genkijira.x, genkijira.y, 200, 300);
+  ctx.drawImage(genkijira.image, genkijira.x, genkijira.y, 200, 300);
 }
 
 function jump() {
@@ -194,12 +212,17 @@ document.addEventListener('keydown', function (ev) {
 init();
 loadImage();
 
-(function loop() {
+genkijira.image.onload = function () {
+  loop();
+};
+
+function loop() {
   window.requestAnimationFrame(loop);
   clear();
-  drawEntity(genkijira); //draw();
-})();
-},{}],"../../../../usr/lib/node_modules/parcel-bundler/src/builtins/hmr-runtime.js":[function(require,module,exports) {
+  drawEntity(food);
+  drawEntity(genkijira);
+}
+},{"./entity":"entity.js"}],"../../../../usr/lib/node_modules/parcel-bundler/src/builtins/hmr-runtime.js":[function(require,module,exports) {
 var global = arguments[3];
 var OVERLAY_ID = '__parcel__error__overlay__';
 var OldModule = module.bundle.Module;
