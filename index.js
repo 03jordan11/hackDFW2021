@@ -5,6 +5,11 @@ const ctx = can.getContext('2d');
 
 const gravity = 0.2;
 let isJumping = false;
+const entities = [];
+
+function addEntity(entity) {
+  entities.push(entity);
+}
 
 const genkijira = new Entity(
   {
@@ -15,6 +20,7 @@ const genkijira = new Entity(
     imagePath: './gotchi.png',
   }
 );
+addEntity(genkijira);
 
 const food = new Entity(
   {
@@ -25,10 +31,7 @@ const food = new Entity(
     imagePath: './lollipop.png',
   }
 );
-
-function drawEntity(entity) {
-  ctx.drawImage(entity.image, entity.pos.x, entity.pos.y, entity.width, entity.height);
-}
+addEntity(food);
 
 function init() {
   can.width = window.innerWidth;
@@ -76,12 +79,6 @@ document.addEventListener('keydown', ev => {
   }
 });
 
-
-init();
-genkijira.image.onload = () => {
-  loop();
-};
-
 function loop() {
   window.requestAnimationFrame(loop);
 
@@ -89,6 +86,11 @@ function loop() {
 
   update();
 
-  drawEntity(food);
-  drawEntity(genkijira);
+  entities.forEach(entity => {
+    entity.draw(ctx);
+  });
 }
+
+init();
+genkijira.image.onload = _ => loop();
+

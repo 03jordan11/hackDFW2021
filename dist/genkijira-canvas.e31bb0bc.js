@@ -127,28 +127,43 @@ exports.Entity = void 0;
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
-var Entity = function Entity(_ref) {
-  var x = _ref.x,
-      y = _ref.y,
-      width = _ref.width,
-      height = _ref.height,
-      imagePath = _ref.imagePath;
+function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
 
-  _classCallCheck(this, Entity);
+function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
 
-  this.pos = {
-    x: x,
-    y: y
-  };
-  this.vel = {
-    x: 0,
-    y: 0
-  };
-  this.width = width;
-  this.height = height;
-  this.image = new Image();
-  this.image.src = imagePath;
-};
+var Entity = /*#__PURE__*/function () {
+  function Entity(_ref) {
+    var x = _ref.x,
+        y = _ref.y,
+        width = _ref.width,
+        height = _ref.height,
+        imagePath = _ref.imagePath;
+
+    _classCallCheck(this, Entity);
+
+    this.pos = {
+      x: x,
+      y: y
+    };
+    this.vel = {
+      x: 0,
+      y: 0
+    };
+    this.width = width;
+    this.height = height;
+    this.image = new Image();
+    this.image.src = imagePath;
+  }
+
+  _createClass(Entity, [{
+    key: "draw",
+    value: function draw(ctx) {
+      ctx.drawImage(this.image, this.pos.x, this.pos.y, this.width, this.height);
+    }
+  }]);
+
+  return Entity;
+}();
 
 exports.Entity = Entity;
 },{}],"index.js":[function(require,module,exports) {
@@ -160,6 +175,12 @@ var can = document.querySelector('#can');
 var ctx = can.getContext('2d');
 var gravity = 0.2;
 var isJumping = false;
+var entities = [];
+
+function addEntity(entity) {
+  entities.push(entity);
+}
+
 var genkijira = new _entity.Entity({
   x: 200,
   y: 200,
@@ -167,6 +188,7 @@ var genkijira = new _entity.Entity({
   height: 300,
   imagePath: './gotchi.png'
 });
+addEntity(genkijira);
 var food = new _entity.Entity({
   x: 600,
   y: 200,
@@ -174,10 +196,7 @@ var food = new _entity.Entity({
   height: 200,
   imagePath: './lollipop.png'
 });
-
-function drawEntity(entity) {
-  ctx.drawImage(entity.image, entity.pos.x, entity.pos.y, entity.width, entity.height);
-}
+addEntity(food);
 
 function init() {
   can.width = window.innerWidth;
@@ -227,19 +246,21 @@ document.addEventListener('keydown', function (ev) {
       break;
   }
 });
-init();
-
-genkijira.image.onload = function () {
-  loop();
-};
 
 function loop() {
   window.requestAnimationFrame(loop);
   clear();
   update();
-  drawEntity(food);
-  drawEntity(genkijira);
+  entities.forEach(function (entity) {
+    entity.draw(ctx);
+  });
 }
+
+init();
+
+genkijira.image.onload = function (_) {
+  return loop();
+};
 },{"./entity":"entity.js"}],"../../../../usr/lib/node_modules/parcel-bundler/src/builtins/hmr-runtime.js":[function(require,module,exports) {
 var global = arguments[3];
 var OVERLAY_ID = '__parcel__error__overlay__';

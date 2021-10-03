@@ -13,4 +13,8 @@ export class Entity {
     this.image = new Image();
     this.image.src = imagePath;
   }
+
+  draw(ctx) {
+    ctx.drawImage(this.image, this.pos.x, this.pos.y, this.width, this.height);
+  }
 }
