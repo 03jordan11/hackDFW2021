@@ -136,8 +136,14 @@ var Entity = function Entity(_ref) {
 
   _classCallCheck(this, Entity);
 
-  this.x = x;
-  this.y = y;
+  this.pos = {
+    x: x,
+    y: y
+  };
+  this.vel = {
+    x: 0,
+    y: 0
+  };
   this.width = width;
   this.height = height;
   this.image = new Image();
@@ -152,6 +158,7 @@ var _entity = require("./entity");
 
 var can = document.querySelector('#can');
 var ctx = can.getContext('2d');
+var gravity = 0.1;
 var genkijira = new _entity.Entity({
   x: 200,
   y: 200,
@@ -168,7 +175,7 @@ var food = new _entity.Entity({
 });
 
 function drawEntity(entity) {
-  ctx.drawImage(entity.image, entity.x, entity.y, entity.width, entity.height);
+  ctx.drawImage(entity.image, entity.pos.x, entity.pos.y, entity.width, entity.height);
 }
 
 function init() {
@@ -185,14 +192,25 @@ function jump() {
   console.log('unimplemented');
 }
 
+function update() {
+  genkijira.vel.y += gravity;
+  genkijira.pos.y += genkijira.vel.y;
+  var g = can.height - genkijira.height;
+
+  if (genkijira.pos.y >= g) {
+    genkijira.pos.y = g - (genkijira.pos.y - g);
+    genkijira.vel.y = -Math.abs(genkijira.vel.y);
+  }
+}
+
 document.addEventListener('keydown', function (ev) {
   switch (ev.key) {
     case 'ArrowLeft':
-      genkijira.x -= 5;
+      genkijira.pos.x -= 5;
       break;
 
     case 'ArrowRight':
-      genkijira.x += 5;
+      genkijira.pos.x += 5;
       break;
 
     case 'ArrowUp':
@@ -215,6 +233,7 @@ genkijira.image.onload = function () {
 function loop() {
   window.requestAnimationFrame(loop);
   clear();
+  update();
   drawEntity(food);
   drawEntity(genkijira);
 }

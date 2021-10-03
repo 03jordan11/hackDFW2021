@@ -3,6 +3,8 @@ import { Entity } from './entity';
 const can = document.querySelector('#can');
 const ctx = can.getContext('2d');
 
+const gravity = 0.1;
+
 const genkijira = new Entity(
   {
     x: 200,
@@ -24,7 +26,7 @@ const food = new Entity(
 );
 
 function drawEntity(entity) {
-  ctx.drawImage(entity.image, entity.x, entity.y, entity.width, entity.height);
+  ctx.drawImage(entity.image, entity.pos.x, entity.pos.y, entity.width, entity.height);
 }
 
 function init() {
@@ -41,13 +43,24 @@ function jump() {
   console.log('unimplemented');
 }
 
+function update() {
+  genkijira.vel.y += gravity;
+  genkijira.pos.y += genkijira.vel.y;
+
+  const g = can.height - genkijira.height;
+  if (genkijira.pos.y >= g) {
+    genkijira.pos.y = g - (genkijira.pos.y - g);
+    genkijira.vel.y = -Math.abs(genkijira.vel.y);
+  }
+}
+
 document.addEventListener('keydown', ev => {
   switch(ev.key) {
     case 'ArrowLeft':
-      genkijira.x -= 5;
+      genkijira.pos.x -= 5;
       break;
     case 'ArrowRight':
-      genkijira.x += 5;
+      genkijira.pos.x += 5;
       break;
     case 'ArrowUp':
       break;
@@ -59,6 +72,7 @@ document.addEventListener('keydown', ev => {
   }
 });
 
+
 init();
 genkijira.image.onload = () => {
   loop();
@@ -68,6 +82,8 @@ function loop() {
   window.requestAnimationFrame(loop);
 
   clear();
+
+  update();
 
   drawEntity(food);
   drawEntity(genkijira);
